@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>District 14 Map</title>
+
+	<link rel="stylesheet" href="css/styles.css" />
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+
+	  <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
+  <![endif]-->
+  
+</head>
+<body>
+
+	<h1>City Council District 14</h1>
+  	<div class = 'tag'>
+    This map shows the proposed rezoning along the Jerome Avenue corridor near District 14.
+  	</div><br>
+
+    <!-- web map and content is here -->
+    <div id="map" style="width: 505px; height: 475px"></div>
+
+	<!-- Add the Leaflet JavaScript library -->
+	<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script>
+    	// Create variable to hold map element, give initial settings to map
+    	var map = L.map('map',{ center: [40.853202, -73.904920], zoom: 13});
+    	
+    	// Add OpenStreetMap tile layer to map element
+		L.tileLayer('https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', { attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attribution">CARTO</a>'
+      	}).addTo(map);
+		
+		// Create point feature for Office of Fernando Cabrera
+		var myDataPoint = L.marker([40.853202, -73.904920]).addTo(map);
+		
+		// Create line feature for Jerome Ave rezoning corridor, style and add to map
+		var myDataLine = L.polyline([[40.860598, -73.902564], [40.834177, -73.922192]],
+    	{color: 'orange', weight: 8}).addTo(map);
+
+		// Bind popup to data point object
+		myDataPoint.bindPopup("<h3>Office of Fernando Cabrera</h3><p>Bronx, NY<br>New York City Council District 14.</p>");
+
+		// Bind popup to line object
+		myDataLine.bindPopup("Jerome Ave proposed rezoning corridor");
+
+		// load GeoJSON from an external file
+		$.getJSON("cc_14.geojson",function(data){
+   
+   		// add GeoJSON layer to the map once the file is loaded
+   		L.geoJson(data).addTo(map);
+});
+
+	</script>
+</body>
+</html>
